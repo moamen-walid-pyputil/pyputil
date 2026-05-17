@@ -1,0 +1,486 @@
+# 🚀 PypUtil - Python Package Utilities
+
+## Write C code directly in Python. Auto-install packages on import. 
+## Generate complete projects in one line.
+
+## 🧠 What is PypUtil?
+
+Ever wished you could:
+
+- **Run C/C++ code** inside Python without compiling separately?
+- **Auto-install packages** when you import them?
+- **Generate a complete project structure** in one command?
+- **Freeze modules in memory** for instant loading?
+- **Load code from URLs** as if it were local?
+
+**PypUtil does all that and more.**
+
+It's an all-in-one toolkit for Python developers who want deeper control, automation, and performance in their workflows.
+
+---
+
+## ⚡ Quick Examples
+
+```python
+from pyputil.cutil import cfast
+from pyputil.template import build_structure_template
+from pyputil.install import auto_install
+
+# 1. Run C code (1000x faster)
+add = cfast.cfunc("int add(int a, int b) { return a + b; }")
+print(add(5, 3))  # 8
+
+# 2. Generate a complete project
+build_structure_template("my_awesome_project")
+
+# 3. Auto-install missing packages
+auto_install(mode="confirm")
+import requests  # Installs automatically if missing!
+```
+
+---
+
+📦 Installation
+
+```bash
+pip install pyputil-python
+```
+
+---
+
+🔥 Why PypUtil?
+
+Feature PypUtil cookiecutter ctypes pip poetry
+Project templates ✅ ✅ ❌ ❌ ❌
+Run C in Python ✅ ❌ ✅ ❌ ❌
+Run C++ in Python ✅ ❌ ❌ ❌ ❌
+Auto-install packages ✅ ❌ ❌ ❌ ❌
+Hot reload ✅ ❌ ❌ ❌ ❌
+Freeze modules ✅ ❌ ❌ ❌ ❌
+Load from URL ✅ ❌ ❌ ❌ ❌
+Single library ✅ ❌ ❌ ❌ ❌
+
+---
+
+📖 Detailed Usage
+
+⚡ C/C++ in Python (Two Options)
+
+cfast (lightweight - for simple C functions):
+
+```python
+from pyputil.cutil import cfast
+
+# Simple function
+add = cfast.cfunc("""
+int add(int a, int b) {
+    return a + b;
+}
+""")
+print(add(5, 3))  # 8
+
+# With math library
+distance = cfast.cfunc("""
+#include <math.h>
+double distance(double x1, double y1, double x2, double y2) {
+    double dx = x2 - x1;
+    double dy = y2 - y1;
+    return sqrt(dx*dx + dy*dy);
+}
+""", libraries=["m"])
+
+print(distance(0, 0, 3, 4))  # 5.0
+
+# Decorator style
+@cfast.cfunc
+def factorial(n: int) -> int:
+    """
+    int factorial(int n) {
+        if (n <= 1) return 1;
+        return n * factorial(n - 1);
+    }
+    """
+print(factorial(10))  # 3628800
+```
+
+cimporter (full-featured - for C++/C/Cython projects):
+
+```python
+from pyputil.cutil import cimporter as cimp
+
+# Load C++ with optimizations
+module = cimp.load(
+    "neural_net.cpp",
+    optimization="aggressive",
+    simd="avx2",
+    openmp=True,
+    language_standard="c++17"
+)
+
+# Load multiple files in parallel
+modules = cimp.load_batch(["kernel.c", "utils.c", "math.c"], parallel=True)
+
+# Sandbox for security
+sandbox = cimp.create_sandbox(
+    policy="strict",
+    timeout_seconds=30,
+    memory_limit_mb=512
+)
+result = sandbox.run(["gcc", "untrusted_code.c"])
+
+# Hot reload
+module = cimp.load("dev_module.cpp", auto_reload=True)
+# ... edit the file ...
+module = cimp.reload("dev_module")  # Recompiles automatically
+```
+
+---
+
+📦 Auto-Install Missing Packages
+
+```python
+from pyputil.install import auto_install, auto_install_context, PackageInstaller
+
+# Mode 1: Confirm before installing (safest)
+auto_install(mode="confirm")
+
+# Mode 2: Silent install (for trusted environments)
+auto_install(mode="silent")
+
+# Mode 3: Dry run (preview only)
+auto_install(mode="dry_run")
+
+# Mode 4: Strict mode (only specific packages)
+auto_install(mode="strict", safe_packages={"requests", "numpy", "pandas"})
+
+# Temporary auto-install (only inside context)
+with auto_install_context(mode="confirm"):
+    import flask  # Will auto-install if missing
+
+# Manual package management
+installer = PackageInstaller("requests")
+if not installer.is_installed():
+    installer.install(version="2.31.0")
+installer.upgrade()
+print(installer.get_version())  # '2.31.0'
+```
+
+---
+
+🏗️ Generate Complete Project Templates
+
+```python
+from pyputil.template import build_structure_template, write_readme, write_pyproject
+
+# Basic usage - one line!
+build_structure_template("my_package")
+
+# Advanced usage
+build_structure_template(
+    pathname="myproject",
+    project_type="cli",  # or "library", "web", "data-science"
+    package_name="myproject",
+    version="1.0.0",
+    description="An awesome Python package",
+    author="Jane Doe",
+    author_email="jane@example.com",
+    license_type="MIT",
+    python_requires=">=3.9",
+    dependencies=["requests>=2.28", "click>=8.0"],
+    extras={
+        "dev": ["pytest>=7.0", "black>=23.0", "ruff>=0.1"],
+        "ml": ["numpy>=1.21", "pandas>=1.3"]
+    },
+    entry_points={
+        "console_scripts": ["mycli = myproject.cli:main"]
+    },
+    create_github_actions=True,
+    create_changelog=True,
+    create_tests=True,
+    create_docs=True,
+    git_init=True,
+    verbose=True
+)
+
+# Generate individual files
+write_pyproject("pyproject.toml", name="mypackage", version="1.0.0")
+write_readme("README.md", name="My Project", badges={"python": "3.10"})
+```
+
+What gets generated:
+
+```
+myproject/
+├── 📄 pyproject.toml        # PEP 621 compliant
+├── 📄 README.md             # Professional with badges
+├── 📄 LICENSE               # MIT/Apache/GPL
+├── 📄 .gitignore            # Comprehensive
+├── 📄 CHANGELOG.md          # Keep a Changelog format
+├── 📁 src/myproject/
+│   ├── 📄 __init__.py
+│   └── 📄 main.py
+├── 📁 tests/
+├── 📁 docs/
+├── 📁 examples/
+└── 📁 .github/workflows/
+    └── 📄 ci.yml            # GitHub Actions ready
+```
+
+---
+
+❄️ Freeze Modules in Memory
+
+```python
+from pyputil.modules import freeze_module, freeze_package, frozen_modules_context
+
+# Freeze a single module
+creator = freeze_module('hello', '''
+def greet(name):
+    return f"Hello {name}!"
+
+VERSION = "1.0.0"
+''', install=True)
+
+# Now use it normally
+import hello
+print(hello.greet("World"))  # Hello World!
+print(hello.VERSION)         # 1.0.0
+
+# Freeze an entire package
+creator = freeze_package('./my_package', prefix='mypkg')
+
+# Temporary context (modules only available inside)
+with frozen_modules_context(creator):
+    import mypkg.module1
+    import mypkg.module2
+    # Modules work normally here
+
+# Outside context - modules are gone
+```
+
+---
+
+📂 Dynamic Module Loading
+
+```python
+from pyputil.loader import load_from_code, load_from_file, load_from_url, lazy_load
+
+# Load from code string
+mod = load_from_code("""
+def hello(): 
+    return "Hello World!"
+
+def add(a, b):
+    return a + b
+""", name="mymod")
+print(mod.hello())  # Hello World!
+print(mod.add(5, 3))  # 8
+
+# Load from any file
+module = load_from_file("/path/to/script.py")
+module.some_function()
+
+# Load from URL (remote code!)
+url = "https://raw.githubusercontent.com/python/cpython/main/Lib/calendar.py"
+module = load_from_url(url)
+print(module.month_name[1])  # January
+
+# Lazy loading (loads only when accessed)
+np = lazy_load('numpy')  # Nothing loaded yet
+arr = np.array([1, 2, 3])  # Now numpy loads
+```
+
+---
+
+🔍 Package Search & Analysis
+
+```python
+from pyputil.scan import Scanner, ScanConfig, SearchMethod
+from pyputil.metadata import get_package_metadata
+from pyputil.tree import print_tree, find_conflicts
+
+# Scan for modules
+scanner = Scanner()
+result = scanner.scan("json")
+print(f"Found {result.total_modules_found} modules")
+
+# Advanced scanning
+config = ScanConfig(
+    search_method=SearchMethod.ALL,
+    analyze_dependencies=True,
+    parallel_scan=True,
+    workers=4
+)
+result = scanner.scan("pytest", config)
+
+# Get package metadata
+info = get_package_metadata("requests")
+print(f"Version: {info.version}")
+print(f"Author: {info.author}")
+print(f"Dependencies: {info.deps}")
+
+# Visualize dependency tree
+print_tree("requests", max_depth=3)
+
+# Find version conflicts
+conflicts = find_conflicts(tree)
+if conflicts:
+    print("Version conflicts detected!")
+```
+
+---
+
+📥 Package Installation & Management
+
+```python
+from pyputil.install import PackageInstaller
+from pyputil.path import copy, move, remove
+
+# Install/upgrade packages
+installer = PackageInstaller("requests")
+if not installer.is_installed():
+    installer.install(version="2.31.0")
+    
+if installer.check_upgrade():
+    installer.upgrade()
+
+# Copy/move packages
+copy("requests", target="/backup")
+move(["numpy", "pandas"], target="/archive")
+
+# Safe removal with backup
+remove("my_old_package", backup=True, dry_run=False)
+```
+
+---
+
+🧩 Module Utilities
+
+```python
+from pyputil.modules import is_stdlib, isbuiltin, mkmod
+from pyputil.version import get_version_info, version_compare, Version
+
+# Check module types
+print(is_stdlib("os"))      # True (standard library)
+print(isbuiltin("sys"))     # True (built-in module)
+
+# Create dynamic module
+module = mkmod("calculator", source="""
+def add(a, b): 
+    return a + b
+
+def multiply(a, b):
+    return a * b
+""")
+print(module.add(5, 3))      # 8
+print(module.multiply(5, 3)) # 15
+
+# Get package version
+print(get_version_info("requests").version)   # '2.31.0'
+print(version_compare("2.0.0", "1.0.0"))  # 1 (greater)
+```
+
+---
+
+💡 Use Cases
+
+🔧 For Tool Developers
+
+· Build CLI tools that auto-install dependencies
+· Create code generators and scaffolding tools
+· Develop package managers and analyzers
+
+🚀 For Performance-Critical Apps
+
+· Move hot loops to C without leaving Python
+· Use SIMD (AVX2, SSE) and OpenMP for parallel processing
+· Compile C++ with maximum optimizations
+
+📦 For Package Maintainers
+
+· Generate PyPI-ready projects in seconds
+· Auto-update CHANGELOG and version numbers
+· Create GitHub Actions workflows automatically
+
+🧪 For Security Researchers
+
+· Sandbox untrusted C code
+· Analyze package dependencies for vulnerabilities
+· Trace module imports and origins
+
+🎓 For Educators
+
+· Distribute Python scripts that auto-install requirements
+· Create coding exercise templates instantly
+· No "pip install" instructions needed
+
+🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork the repository
+2. Create a feature branch (git checkout -b feature/amazing)
+3. Commit your changes (git commit -m 'Add amazing feature')
+4. Push to the branch (git push origin feature/amazing)
+5. Open a Pull Request
+
+---
+
+📄 License
+
+This project is licensed under the MIT License.
+See the LICENSE file for details.
+
+---
+
+📚 Full Documentation
+
+https://moamen-walid-pyputil.github.io/pyputil/
+
+---
+
+---
+
+👤 Author
+
+Moamen Walid
+Iraq 🇮🇶
+
+· GitHub: @moamen-walid-pyputil
+
+---
+
+📬 Support
+
+· Issues: GitHub Issues
+· Discussions: GitHub Discussions
+
+---
+
+🙏 Acknowledgments
+
+· Python Software Foundation for PEP standards
+· All contributors and users of PypUtil
+
+---
+
+🔥 Final Note
+
+PypUtil aims to simplify and supercharge Python development workflows by combining multiple powerful utilities into one cohesive library.
+
+From running C code at native speed to auto-installing packages on import, from generating complete project templates to freezing modules in memory - PypUtil does it all.
+
+Try it today:
+
+```bash
+pip install pyputil
+```
+
+```python
+from pyputil.cutil import cfast
+
+add = cfast.cfunc("int add(int a, int b) { return a + b; }")
+print(add(5, 3))  # 8 - That's C code running in Python!
+```
+
+Made with ❤️ for the Python community

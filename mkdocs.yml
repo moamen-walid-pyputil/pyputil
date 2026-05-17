@@ -1,0 +1,138 @@
+site_name: PyPUtil Documentation
+site_description: Comprehensive Python utilities library
+site_author: Moamen Walid
+site_url: https://moamen-walid-pyputil.github.io/pyputil/
+
+repo_url: https://github.com/moamen-walid-pyputil/pyputil
+repo_name: moamen-walid-pyputil/pyputil
+edit_uri: edit/main/docs/
+
+copyright: Copyright © 2026 PyPUtil Contributors
+
+theme:
+  name: material
+  logo: assets/logo.png
+  favicon: assets/favicon.svg
+
+  language: en
+
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - toc.follow
+
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+markdown_extensions:
+  - admonition
+
+  - toc:
+      permalink: true
+
+  - tables
+  - footnotes
+  - attr_list
+  - md_in_html
+  - def_list
+
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+
+  - pymdownx.tabbed:
+      alternate_style: true
+
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - search
+
+  - mkdocstrings:
+      handlers:
+        python:
+          paths:
+            - .
+
+          options:
+            show_source: true
+            show_root_heading: true
+            show_signature_annotations: true
+            separate_signature: true
+  - git-revision-date-localized:
+      fallback_to_build_date: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/moamen-walid-pyputil/pyputil
+
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/pyputil/
+
+  generator: false
+
+nav:
+  - Home: index.md
+  
+  - Utilities:
+      - Utilities Overview: util/util-docs.md
+  
+  - Tree Packages:
+      - Base Tree: tree/core-docs.md
+      - Format Trees: tree/formats-docs.md
+      - Utilities: tree/utils-docs.md
+      - Print/Build Tree: tree/tree-docs.md
+  
+  - Path Package:
+      - Path Management: path/path-docs.md
+      - IO Text Module: path/iotm-docs.md
+      - Utilities Path Management: path/pathmodkit-docs.md
+  
+  - Loader:
+      - Loader: loader/loader-docs.md
+  
+  - Import Sorter:
+      - ISort: isort/isort-docs.md
+  
+  - Installer:
+      - Installer: install/install-docs.md
+  
+  - Core Package Management:
+      - Backup System: core/backup-docs.md
+      - Import Hub: core/importhub-docs.md
+      - Explorer: core/explorer-docs.md
+      - Static Code Analyze: core/sca-docs.md
+      - Searcher: core/searcher-docs.md
+      - Zip Module: core/zipmodule-docs.md
+  
+  - Templates:
+      - template: template/template-docs.md
+  
+  - Scanner:
+      - Scanner Packages: scan/scan-docs.md
+  
+  - API Reference:
+      - API: api/api-docs.md

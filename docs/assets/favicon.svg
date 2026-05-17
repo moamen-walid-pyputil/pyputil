@@ -1,0 +1,8 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pyGradient" x1="40" y1="40" x2="216" y2="216" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4DA3FF"/>
+      <stop offset="1" stop-color="#FFD84D"/>
+    </linearGradient>
+  </defs>  <!-- Background Glow -->  <circle cx="128" cy="128" r="108" fill="url(#pyGradient)" opacity="0.12"/>  <!-- Main P Shape -->  <path d="M84 48H136C177 48 204 73 204 112C204 151 177 176 136 176H112V208H84V48ZM112 74V150H136C160 150 176 137 176 112C176 87 160 74 136 74H112Z" fill="url(#pyGradient)"/>  <!-- Utility Wrench Accent -->  <path d="M154 170C161 177 172 180 182 177L205 200C209 204 209 211 205 215L199 221C195 225 188 225 184 221L161 198C150 201 138 198 130 190C120 180 117 165 122 152L140 170L154 156L136 138C149 133 165 138 174 147C181 154 184 163 182 172L154 170Z" fill="#FFD84D"/>
+</svg>

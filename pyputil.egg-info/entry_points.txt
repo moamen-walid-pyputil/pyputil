@@ -1,0 +1,5 @@
+[console_scripts]
+pyputil-pip = pyputil.pip:main
+pyputil-pycutil = pyputil.pycutil:main
+pyputil-pypiutil = pyputil.pypiutil:main
+pyputil-tree = pyputil.tree.cli:main
